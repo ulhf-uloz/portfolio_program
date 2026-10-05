@@ -1134,7 +1134,7 @@ function SpotCard({
           画像準備中
         </div>
       )}
-
+git
       <div className="p-5">
 
         <div className="flex items-center justify-between gap-2">
