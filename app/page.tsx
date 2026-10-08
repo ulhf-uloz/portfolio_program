@@ -132,6 +132,9 @@ export default function Page() {
   >('home')
 
   const [selected, setSelected] = useState<Spot | null>(null)
+  const [detailBackView, setDetailBackView] = useState<
+  'recommendations' | 'history'
+>('recommendations')
   const [visits, setVisits] = useState<Visit[]>([])
   const [toast, setToast] = useState('')
 
@@ -245,10 +248,13 @@ export default function Page() {
     [spots, mood, area]
   )
 
-  const openDetail = (spot: Spot) => {
-    setSelected(spot)
-    setView('detail')
-  }
+ const openDetail = (spot: Spot) => {
+  setDetailBackView(
+    view === 'history' ? 'history' : 'recommendations'
+  )
+  setSelected(spot)
+  setView('detail')
+}
 
   const showToast = (message: string) => {
     setToast(message)
@@ -608,9 +614,7 @@ export default function Page() {
           <Detail
             spot={selected}
             visits={visits}
-            onBack={() =>
-              setView('recommendations')
-            }
+            onBack={() => setView(detailBackView)}
             onVisit={visit}
             onSave={handleSaveReview}
           />
@@ -670,8 +674,15 @@ export default function Page() {
 
                         <div>
                           <h2 className="font-bold">
-                            {spot.title}
-                          </h2>
+  <button
+    type="button"
+    onClick={() => openDetail(spot)}
+    className="text-left text-slate-900 transition hover:text-[#1769aa] hover:underline"
+  >
+    {spot.title}
+    <ChevronRight className="ml-1 inline size-4" />
+  </button>
+</h2>
 
                           <p className="mt-1 flex items-center gap-1 text-xs text-slate-500">
                             <MapPin className="size-3" />
@@ -1134,7 +1145,6 @@ function SpotCard({
           画像準備中
         </div>
       )}
-git
       <div className="p-5">
 
         <div className="flex items-center justify-between gap-2">
